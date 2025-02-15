@@ -21,6 +21,7 @@ const Auth = () => {
 
     // Store the name in session storage
     sessionStorage.setItem("userName", name.trim());
+    localStorage.setItem("userName", name.trim());
     toast.success("Welcome, " + name + "! ❤️");
     navigate("/");
   };
