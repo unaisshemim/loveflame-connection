@@ -1,9 +1,17 @@
-
 import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send, User, Heart } from "lucide-react";
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  Timestamp,
+} from "firebase/firestore";
+import { db } from "firebaseConfig.js";
 
 interface Message {
   id: number;
@@ -13,42 +21,31 @@ interface Message {
 }
 
 const Chat = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      text: "Hi love! How was your day?",
-      sender: "John",
-      timestamp: "10:00 AM"
-    },
-    {
-      id: 2,
-      text: "It was great! Missing you though ❤️",
-      sender: "Jane",
-      timestamp: "10:01 AM"
-    },
-    {
-      id: 3,
-      text: "Shall we plan something for the weekend?",
-      sender: "John",
-      timestamp: "10:02 AM"
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
-  const currentUser = "John"; // This would normally come from authentication
+  const currentUser = auth.currentUser?.displayName || "John"; // Fallback for now
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  useEffect(() => {
+    const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setMessages(
+        snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Message))
+      );
+    });
+
+    return () => unsubscribe(); // Cleanup listener on unmount
+  }, []);
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
 
-    const message: Message = {
-      id: messages.length + 1,
+    await addDoc(collection(db, "messages"), {
       text: newMessage,
       sender: currentUser,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    };
+      timestamp: Timestamp.now(),
+    });
 
-    setMessages([...messages, message]);
-    setNewMessage("");
+    setNewMessage(""); // Clear input field
   };
 
   return (
@@ -57,9 +54,11 @@ const Chat = () => {
         <h1 className="font-playfair text-4xl font-bold text-center text-gray-900 mb-8 animate-fadeIn">
           Love Chat
         </h1>
-        
-        <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-6 animate-fadeIn opacity-0" 
-             style={{ animationDelay: "200ms" }}>
+
+        <div
+          className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-6 animate-fadeIn opacity-0"
+          style={{ animationDelay: "200ms" }}
+        >
           {/* Chat History */}
           <ScrollArea className="h-[400px] pr-4 mb-4">
             <div className="space-y-4">
@@ -67,7 +66,9 @@ const Chat = () => {
                 <div
                   key={message.id}
                   className={`flex ${
-                    message.sender === currentUser ? "justify-end" : "justify-start"
+                    message.sender === currentUser
+                      ? "justify-end"
+                      : "justify-start"
                   }`}
                 >
                   <div
@@ -79,8 +80,12 @@ const Chat = () => {
                   >
                     <div className="flex items-center gap-2 mb-1">
                       <User className="h-4 w-4" />
-                      <span className="text-sm font-medium">{message.sender}</span>
-                      <span className="text-xs opacity-70">{message.timestamp}</span>
+                      <span className="text-sm font-medium">
+                        {message.sender}
+                      </span>
+                      <span className="text-xs opacity-70">
+                        {message.timestamp}
+                      </span>
                     </div>
                     <p className="text-sm">{message.text}</p>
                   </div>
@@ -97,7 +102,7 @@ const Chat = () => {
               placeholder="Type your message..."
               className="flex-1"
             />
-            <Button 
+            <Button
               type="submit"
               className="bg-love-500 hover:bg-love-600 text-white"
             >
