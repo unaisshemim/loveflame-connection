@@ -52,17 +52,58 @@ const Flames = () => {
       const flamesResult = calculateFlames(name1, name2);
       setResult(flamesResult);
       setIsCalculating(false);
-    }, 2000);
+    }, 5000);
   };
 
+  // const getResultIcon = (result: FlamesResult) => {
+  //   switch (result) {
+  //     case "Friends": return <Users className="h-16 w-16" />;
+  //     case "Lovers": return <Heart className="h-16 w-16" />;
+  //     case "Affectionate": return <Heart className="h-16 w-16 text-pink-500" />; // Changed from UserHeart
+  //     case "Marriage": return <Star className="h-16 w-16" />;
+  //     case "Enemies": return <HeartCrack className="h-16 w-16" />;
+  //     case "Siblings": return <Users className="h-16 w-16" />;
+  //     default: return null;
+  //   }
+  // };
   const getResultIcon = (result: FlamesResult) => {
     switch (result) {
-      case "Friends": return <Users className="h-16 w-16" />;
-      case "Lovers": return <Heart className="h-16 w-16" />;
-      case "Affectionate": return <Heart className="h-16 w-16 text-pink-500" />; // Changed from UserHeart
-      case "Marriage": return <Star className="h-16 w-16" />;
-      case "Enemies": return <HeartCrack className="h-16 w-16" />;
-      case "Siblings": return <Users className="h-16 w-16" />;
+      case "Friends": return (
+        <img
+          src="https://media.tenor.com/FUpjhvbSQa0AAAAM/friends-friends-tv.gif"
+          alt=""
+        />
+      );
+      case "Lovers": return (
+        <img
+          src="https://media.tenor.com/fRtBS7waUAIAAAAM/xg-harvey.gif"
+          alt=""
+        />
+      );
+      case "Affectionate": return (
+        <img
+          src="https://media.tenor.com/L0qShasgWyUAAAAm/love-valentine%27s-day.webp"
+          alt=""
+        />
+      ); // Changed from UserHeart
+      case "Marriage": return (
+        <img
+          src="https://media.tenor.com/aP2mJ1j68GgAAAAM/happy-navratri.gif"
+          alt=""
+        />
+      );
+      case "Enemies": return (
+        <img
+          src="https://media.tenor.com/U9nZQ_OTmFsAAAAM/comedysportz-comedy.gif"
+          alt=""
+        />
+      );
+      case "Siblings": return (
+        <img
+          src="https://media.tenor.com/i-o9n-NqM2UAAAAM/bhibatsam-cute-kid.gif"
+          alt=""
+        />
+      );
       default: return null;
     }
   };

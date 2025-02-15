@@ -35,7 +35,7 @@ const Index = () => {
                 onClick={() => (window.location.href = "/flames")}
                 className="px-8 py-3 bg-white text-love-500 rounded-full font-inter font-medium hover:bg-gray-50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border border-love-200"
               >
-                Calculate Compatibility
+                Flames Calculator
               </button>
             </div>
           </div>

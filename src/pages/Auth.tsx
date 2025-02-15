@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 
 const Auth = () => {
   const [name, setName] = useState("");
+   const [isSingle, setIsSingle] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,6 +26,8 @@ const Auth = () => {
     toast.success("Welcome, " + name + "! ❤️");
     navigate("/");
   };
+
+  console.log(isSingle,'---');
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/30 to-secondary/30 flex items-center justify-center px-4">
@@ -51,9 +54,32 @@ const Auth = () => {
                 autoFocus
               />
             </div>
-            <div className="flex items-center space-x-2">
-              <Switch id="airplane-mode" />
-              <Label htmlFor="airplane-mode">Single</Label>
+            <div className="flex flex-col gap-3 items-center justify-between space-x-2">
+              <div>
+                <Switch
+                  checked={isSingle} // Bind the Switch state
+                  onCheckedChange={(checked) => setIsSingle(checked)}
+                  id="airplane-mode"
+                />
+                <Label htmlFor="airplane-mode">Single</Label>
+              </div>
+              {isSingle ? (
+                <div>
+                  <img
+                    className="w-28 h-28 rounded-xl object-cover"
+                    src="https://media.tenor.com/wnFKruwq08YAAAAM/holding-hands-solo.gif"
+                    alt="image"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <img
+                    className="w-28 h-28 rounded-xl object-cover"
+                    src="https://media.tenor.com/qydbTtr_gEwAAAAM/kikai-sentai-zenkaiger-episode4.gif"
+                    alt="image"
+                  />
+                </div>
+              )}
             </div>
 
             <Button
@@ -70,3 +96,5 @@ const Auth = () => {
 };
 
 export default Auth;
+
+

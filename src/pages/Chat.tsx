@@ -14,10 +14,11 @@ import {
 import { db, auth } from "../../firebaseConfig"; // Corrected import path
 
 interface Message {
-  id: number;
+  id: string; // Changed to string to match Firestore IDs
   text: string;
   sender: string;
-  timestamp: string;
+  timestamp: string; // Changed to string for rendering
+  isAI?: boolean; // Added to distinguish AI messages
 }
 
 const Chat = () => {
@@ -25,11 +26,59 @@ const Chat = () => {
   const [newMessage, setNewMessage] = useState("");
   const currentUser = auth.currentUser?.displayName || "John"; // Fallback for now
 
+  // Gemini AI API Key
+  const GEMINI_API_KEY = "AIzaSyDgmmAkMsVSL1Qd5u9xFACmVKxq4aUVcRY";
+
+  // Function to send a message to Gemini AI
+  const sendToGeminiAI = async (message: string) => {
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    text: message,
+                  },
+                ],
+              },
+            ],
+          }),
+        }
+      );
+
+      const data = await response.json();
+      const aiResponse = data.candidates[0].content.parts[0].text;
+
+      // Add AI response to Firestore
+      await addDoc(collection(db, "messages"), {
+        text: aiResponse,
+        sender: "Gemini AI",
+        timestamp: Timestamp.now(),
+        isAI: true,
+      });
+    } catch (error) {
+      console.error("Error sending message to Gemini AI:", error);
+    }
+  };
+
   useEffect(() => {
     const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setMessages(
-        snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Message))
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          text: doc.data().text,
+          sender: doc.data().sender,
+          timestamp: doc.data().timestamp.toDate().toLocaleString(), // Convert Firestore Timestamp to string
+          isAI: doc.data().isAI || false,
+        }))
       );
     });
 
@@ -40,11 +89,15 @@ const Chat = () => {
     e.preventDefault();
     if (!newMessage.trim()) return;
 
+    // Add user message to Firestore
     await addDoc(collection(db, "messages"), {
       text: newMessage,
       sender: currentUser,
       timestamp: Timestamp.now(),
     });
+
+    // Send the message to Gemini AI
+    await sendToGeminiAI(newMessage);
 
     setNewMessage(""); // Clear input field
   };
@@ -76,6 +129,8 @@ const Chat = () => {
                     className={`max-w-[80%] rounded-2xl p-4 ${
                       message.sender === currentUser
                         ? "bg-love-500 text-white"
+                        : message.isAI
+                        ? "bg-blue-100"
                         : "bg-gray-100"
                     }`}
                   >
@@ -85,7 +140,7 @@ const Chat = () => {
                         {message.sender}
                       </span>
                       <span className="text-xs opacity-70">
-                        {message.timestamp}
+                        {message.timestamp} {/* Now a string, safe to render */}
                       </span>
                     </div>
                     <p className="text-sm">{message.text}</p>
