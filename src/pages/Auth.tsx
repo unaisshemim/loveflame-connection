@@ -1,10 +1,12 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Heart } from "lucide-react";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 const Auth = () => {
   const [name, setName] = useState("");
@@ -16,7 +18,7 @@ const Auth = () => {
       toast.error("Please enter your name");
       return;
     }
-    
+
     // Store the name in session storage
     sessionStorage.setItem("userName", name.trim());
     toast.success("Welcome, " + name + "! ❤️");
@@ -47,6 +49,10 @@ const Auth = () => {
                 className="w-full font-inter"
                 autoFocus
               />
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch id="airplane-mode" />
+              <Label htmlFor="airplane-mode">Single</Label>
             </div>
 
             <Button
