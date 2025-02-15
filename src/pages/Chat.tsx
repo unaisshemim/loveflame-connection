@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ import {
   onSnapshot,
   Timestamp,
 } from "firebase/firestore";
-import { db } from "firebaseConfig.js";
+import { db, auth } from "../../firebaseConfig"; // Corrected import path
 
 interface Message {
   id: number;
@@ -35,6 +35,7 @@ const Chat = () => {
 
     return () => unsubscribe(); // Cleanup listener on unmount
   }, []);
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
