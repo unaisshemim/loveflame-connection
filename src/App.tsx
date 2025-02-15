@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Agreement from "./pages/Agreement";
 import Chat from "./pages/Chat";
 import Flames from "./pages/Flames";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
         <main className="pt-16">
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/agreement" element={<Agreement />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/flames" element={<Flames />} />

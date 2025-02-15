@@ -39,6 +39,9 @@ const Navigation = () => {
             <NavLink to="/" current={location.pathname}>
               Home
             </NavLink>
+            <NavLink to="/auth" current={location.pathname}>
+              Login
+            </NavLink>
             <NavLink to="/agreement" current={location.pathname}>
               Agreement
             </NavLink>
