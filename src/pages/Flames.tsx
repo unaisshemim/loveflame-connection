@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Heart, Flame, UserHeart, Users, HeartCrack, Star } from "lucide-react";
+import { Heart, Flame, Users, HeartCrack, Star } from "lucide-react";
 import { toast } from "sonner";
 
 type FlamesResult = "Friends" | "Lovers" | "Affectionate" | "Marriage" | "Enemies" | "Siblings" | null;
@@ -59,7 +59,7 @@ const Flames = () => {
     switch (result) {
       case "Friends": return <Users className="h-16 w-16" />;
       case "Lovers": return <Heart className="h-16 w-16" />;
-      case "Affectionate": return <UserHeart className="h-16 w-16" />;
+      case "Affectionate": return <Heart className="h-16 w-16 text-pink-500" />; // Changed from UserHeart
       case "Marriage": return <Star className="h-16 w-16" />;
       case "Enemies": return <HeartCrack className="h-16 w-16" />;
       case "Siblings": return <Users className="h-16 w-16" />;
