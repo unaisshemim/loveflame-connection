@@ -5,27 +5,34 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <section className="relative overflow-hidden bg-gradient-to-b from-primary/30 to-secondary/30">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07')] bg-cover bg-center opacity-10" />
+        <div className="absolute inset-0 bg-[url('https://img.freepik.com/free-vector/comic-style-background-red-colored_23-2148822367.jpg?uid=R118499020&ga=GA1.1.772838853.1731927176&semt=ais_authors_boost')] bg-cover bg-center opacity-40" />
         <div className="container mx-auto px-4 py-32">
           <div className="relative z-10 max-w-3xl mx-auto text-center">
             <div className="animate-float mb-6 inline-block">
               <Heart className="h-16 w-16 text-love-500 animate-pulse-slow" />
             </div>
-            <h1 className="font-playfair text-5xl md:text-6xl font-bold text-gray-900 mb-6 animate-fadeIn">
+            <h1 className="font-playfair  text-5xl md:text-6xl font-normal text-gray-900 mb-6 animate-fadeIn">
               Celebrate Love in Every Click
             </h1>
-            <p className="font-inter text-xl text-gray-600 mb-8 animate-fadeIn opacity-0" style={{ animationDelay: "200ms" }}>
-              Discover the perfect way to express your feelings, connect with your loved ones, and calculate your compatibility.
+            <p
+              className="font-inter text-xl text-gray-600 mb-8 animate-fadeIn opacity-0"
+              style={{ animationDelay: "200ms" }}
+            >
+              Discover the perfect way to express your feelings, connect with
+              your loved ones, and calculate your compatibility.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fadeIn opacity-0" style={{ animationDelay: "400ms" }}>
+            <div
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fadeIn opacity-0"
+              style={{ animationDelay: "400ms" }}
+            >
               <button
-                onClick={() => window.location.href = '/agreement'}
+                onClick={() => (window.location.href = "/agreement")}
                 className="px-8 py-3 bg-love-500 text-white rounded-full font-inter font-medium hover:bg-love-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 Start Your Journey
               </button>
               <button
-                onClick={() => window.location.href = '/flames'}
+                onClick={() => (window.location.href = "/flames")}
                 className="px-8 py-3 bg-white text-love-500 rounded-full font-inter font-medium hover:bg-gray-50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl border border-love-200"
               >
                 Calculate Compatibility

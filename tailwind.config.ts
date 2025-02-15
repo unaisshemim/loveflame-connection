@@ -30,7 +30,7 @@ export default {
           600: "#e11d48",
           700: "#be123c",
           800: "#9f1239",
-          900: "#881337"
+          900: "#881337",
         },
         primary: {
           DEFAULT: "#FFDEE2",
@@ -51,11 +51,11 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        playfair: ["Playfair Display", "serif"],
-        inter: ["Inter", "sans-serif"],
+        playfair: ["Bricolage Grotesque", "serif"],
+        inter: ["Poppins", "serif"],
       },
       keyframes: {
-        "float": {
+        float: {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
         },
